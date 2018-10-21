@@ -1,0 +1,19 @@
+---
+- fail:
+    msg: "Sorry, only debian is supported"
+  when: ansible_os_family != 'Debian'
+
+- name: Create custom fact diretory
+  file:
+      path: "/etc/ansible/facts.d"
+      state: "directory"
+
+- name: "Intall custom facts"
+  copy:
+      src: "{{cwd}}/files/facts/tuned.sh"
+      dest: "/etc/ansible/facts.d/tuned.fact"
+      mode: 0755
+
+- import_tasks: base.yaml
+- import_tasks: dev.yaml
+  when: dev_mode == True

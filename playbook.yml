@@ -1,0 +1,31 @@
+---
+- hosts: all
+  become: yes
+  vars_files:
+       - ./config.yaml
+
+  roles:
+      - name: debian
+        tags: [debian]
+        cwd: "{{ playbook_dir }}/roles/debian"
+      - name: vim
+        tags: [vim]
+        cwd: "{{ playbook_dir }}/roles/vim"
+
+  tasks:
+      - meta: flush_handlers
+      - name: Check provisioned file
+        stat:
+            path: "/provisioned"
+        register: st_provision
+
+      - name: Reboot system after provisioned
+        reboot:
+        when: st_provision.stat.exists == False
+
+      - name: Create provisioned file
+        file:
+            path: "/provisioned"
+            state: touch
+            mode: "400"
+        when: st_provision.stat.exists == False

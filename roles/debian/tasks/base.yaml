@@ -1,0 +1,59 @@
+---
+- name: Remove old sources.list
+  file:
+      path: "{{item}}"
+      state: absent
+  with_items:
+      - "/etc/apt/sources.list"
+      - "/etc/apt/sources.list~"
+      - "/etc/apt/sources.list.d/contrib.list"
+
+- name: Install Main Repo
+  apt_repository:
+      repo: deb http://httpredir.debian.org/debian/ {{debian_release}} main non-free contrib
+      state: present
+
+- name: Install Security Repo
+  apt_repository:
+      repo: deb http://security.debian.org/debian-security {{debian_release}}/updates main contrib non-free
+      state: present
+
+- name: Install system packages
+  apt:
+      name: "{{ main_packages }}"
+      state: latest
+      update_cache: true
+
+- name: Set io scheduler
+  copy:
+      dest: /etc/udev/rules.d/60-ssd-scheduler.rules
+      content:
+        ACTION=="add|change", KERNEL=="sd[a-z]", ATTR{queue/rotational}=="0", ATTR{queue/scheduler}="mq-deadline"
+
+- name: Reload Setup
+  setup:
+
+- name: Enable tuned profile
+  shell: tuned-adm profile virtual-guest
+  when: ansible_local.tuned.status == True
+
+- name: Setting systemd-timesyncd
+  template:
+      src: "timesyncd.conf.j2"
+      dest: /etc/systemd/timesyncd.conf
+      mode: 0664
+      owner: root
+      group: root
+  notify: Restart systemd-timesyncd
+
+- name: Upgrade dist
+  apt:
+      upgrade: dist
+      update_cache: true
+      autoremove: true
+
+- name: Setup tmp.mount service
+  copy:
+      src: /usr/share/systemd/tmp.mount
+      dest: /etc/systemd/system/tmp.mount
+  notify: Enable tmp.mount

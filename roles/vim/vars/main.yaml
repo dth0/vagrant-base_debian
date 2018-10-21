@@ -1,0 +1,24 @@
+---
+vim_bundle: "~/.vim/bundle/"
+
+vim_packages:
+    - vim-nox
+    - vim-addon-manager
+    - vim-airline
+    - vim-airline-themes
+    - vim-common
+    - vim-fugitive
+    - vim-pathogen
+    - vim-runtime
+    - vim-scripts
+
+vim_plugins:
+    - airline
+    - airline-themes
+    - fugitive
+    - surround
+    - pathogen
+
+deprecated_packages:
+    - vim-tiny
+    - nano

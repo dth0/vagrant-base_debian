@@ -1,0 +1,6 @@
+---
+debian_release: buster
+username: vagrant
+ntp_server: time.google.com
+ansible_python_interpreter: /usr/bin/python3
+dev_mode: false

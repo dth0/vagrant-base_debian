@@ -1,0 +1,103 @@
+execute pathogen#infect()
+filetype plugin indent on
+syntax on
+
+set directory=~/.vim/swapdir//
+
+set showcmd
+set encoding=utf-8
+set laststatus=2
+set cursorline
+
+set t_Co=256
+
+"" Searching
+set hlsearch " highlight matches
+set incsearch " incremental searching
+set ignorecase " searches are case insensitive...
+set smartcase " unless they contain at least one capital letter
+
+"set background=dark
+set nocompatible
+
+"set guifont=DroidSansMono_Nerd_Font:h11
+
+set relativenumber
+set number
+"set list
+"set listchars=tab:>·,trail:·
+
+set noshowmode
+
+set numberwidth=3
+set foldmethod=indent
+set foldlevel=99
+
+set shiftwidth=4
+set smarttab
+set tabstop=4
+set autoindent
+set expandtab
+
+set history=1000
+
+au BufNewFile,BufRead *.py
+    \ set tabstop=4 softtabstop=4 shiftwidth=4  expandtab autoindent fileformat=unix
+
+au BufRead,BufNewFile *.c,*.h 
+    \ set noexpandtab tabstop=8 shiftwidth=8 softtabstop=8 autoindent fileformat=unix colorcolumn=80
+au BufRead,BufNewFile *.c,*.h let b:comment_leader = '/* '
+
+let NERDTreeIgnore=['\.pyc$', '\~$']
+let g:airline_powerline_fonts = 1
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#fnamemod = ':t'
+let g:python_host_prog = '/usr/bin/python2'
+let g:python3_host_prog = '/usr/bin/python3'
+
+map <f2> :set number! number?<cr>
+map <C-n> :NERDTreeToggle<CR>
+map <leader>l :bnext<CR>
+map <leader>h :bprevious<CR>
+
+colorscheme OceanicNext
+
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | endif
+autocmd bufenter * nested if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+
+"let g:pymode_rope = 1
+
+" Support virtualenv
+let g:pymode_virtualenv = 1
+
+" Documentation
+let g:pymode_doc = 1
+let g:pymode_doc_key = 'K'
+
+"Linting
+let g:pymode_lint = 1
+let g:pymode_lint_checker = "pyflakes,pep8"
+
+" Auto check on save
+let g:pymode_lint_write = 1
+
+" Enable breakpoints plugin
+let g:pymode_breakpoint = 1
+let g:pymode_breakpoint_bind = '<leader>b'
+
+
+" syntax highlighting
+let g:pymode_syntax = 1
+let g:pymode_syntax_all = 1
+let g:pymode_syntax_indent_errors = g:pymode_syntax_all
+let g:pymode_syntax_space_errors = g:pymode_syntax_all
+
+" Don't autofold code
+let g:pymode_folding = 0
+
+"let g:pymode_python = 'python'
+"
+
+" Override run current python file key shortcut to Ctrl-Shift-e
+let g:pymode_run_bind = "<C-S-r>"

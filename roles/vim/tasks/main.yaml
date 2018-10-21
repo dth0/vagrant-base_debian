@@ -1,0 +1,39 @@
+---
+- name: Install vim
+  apt:
+      name: "{{vim_packages}}"
+      state: latest
+      update_cache: true
+
+- name: Set vim-nox as the default editor
+  alternatives:
+      name: editor
+      path: /usr/bin/vim.nox
+
+- name: Remove deprecated packages
+  apt:
+      name: "{{deprecated_packages}}"
+      state: absent
+
+- name: install vimrc
+  copy:
+      dest: "~/.vimrc"
+      src: "{{ cwd }}/files/vimrc"
+
+- name: check plugins
+  stat:
+      path: "~/.vim/plugin"
+  register: st_plugin
+
+- name: install plugins
+  command: vim-addons install "{{item}}"
+  with_items:
+      "{{vim_plugins}}"
+  when: st_plugin.stat.exists == False
+      
+- name: Create swapdir
+  file:
+      path: "~/.vim/swapdir"
+      state: "directory"
+
+- import_tasks: modules.yaml

@@ -1,0 +1,25 @@
+---
+main_packages:
+    - bash-completion
+    - git
+    - curl
+    - dnsutils
+    - htop
+    - iotop
+    - lsof
+    - strace
+    - nmap
+    - tcpdump
+    - ndiff
+    - rsync
+    - sudo
+    - jq
+    - apt-transport-https
+    - wget
+    - sysstat
+    - tuned
+    - tuned-utils
+
+dev_packages:
+    - build-essential
+    - linux-headers-amd64

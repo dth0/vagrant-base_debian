@@ -1,0 +1,40 @@
+---
+- name: Clone vim-devicons into vim_bundle
+  git:
+      repo: https://github.com/ryanoasis/vim-devicons
+      dest: "{{vim_bundle}}/vim-devicons"
+      clone: true
+      update: true
+      recursive: true
+
+- name: Clone python-mode into vim_bundle
+  git:
+      repo: https://github.com/python-mode/python-mode.git
+      dest: "{{vim_bundle}}/python-mode"
+      clone: true
+      update: true
+      recursive: true
+
+- name: Clone oceanic-next into vim_bundle
+  git:
+      repo: https://github.com/mhartington/oceanic-next.git
+      dest: "{{vim_bundle}}/oceanic-next"
+      clone: true
+      update: true
+      recursive: true
+
+- name: Clone vim-repeat into vim_bundle
+  git:
+      repo: https://github.com/tpope/vim-repeat.git
+      dest: "{{vim_bundle}}/vim-repeat"
+      clone: true
+      update: true
+      recursive: true
+
+- name: Clone nerdtree into vim_bundle
+  git:
+      repo: https://github.com/scrooloose/nerdtree.git
+      dest: "{{vim_bundle}}/nerdtree"
+      clone: true
+      update: true
+      recursive: true
